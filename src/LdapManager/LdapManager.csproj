@@ -37,34 +37,35 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Caliburn.Metro">
-      <HintPath>..\packages\Caliburn.Metro.0.5.0\lib\net45\Caliburn.Metro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Metro.Core">
-      <HintPath>..\packages\Caliburn.Metro.0.5.0\lib\net45\Caliburn.Metro.Core.dll</HintPath>
-    </Reference>
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.Core.2.0.1\lib\net45\Caliburn.Micro.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Logging">
-      <HintPath>..\packages\Caliburn.Micro.Logging.2.0.3.0\lib\portable-net45+win+wpa81+wp80\Caliburn.Micro.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Caliburn.Micro.Logging.log4net">
-      <HintPath>..\packages\Caliburn.Micro.Logging.log4net.2.0.3.0\lib\net45\Caliburn.Micro.Logging.log4net.dll</HintPath>
     </Reference>
     <Reference Include="Caliburn.Micro.Platform">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.0.13.1.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="Castle.Facilities.Logging">
+      <HintPath>..\packages\Castle.LoggingFacility.3.3.0\lib\net45\Castle.Facilities.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Services.Logging.Log4netIntegration">
+      <HintPath>..\packages\Castle.Core-log4net.3.3.0\lib\net45\Castle.Services.Logging.Log4netIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\packages\Fluent.Ribbon.3.0.2\lib\net45\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.0.13.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,9 +88,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Services\BookmarkService.cs" />
+    <Compile Include="Services\Interfaces\IBookmarkService.cs" />
+    <Compile Include="Startup\EventRegistrationFacility.cs" />
+    <Compile Include="Models\ConnectionBookmark.cs" />
+    <Compile Include="Startup\ApplicationBootstrapper.cs" />
+    <Compile Include="ViewModels\Interfaces\IManagerViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IShellViewModel.cs" />
+    <Compile Include="ViewModels\ManagerViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\ManagerView.xaml.cs">
+      <DependentUpon>ManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caliburn\Micro\Logging\DebugLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,28 +122,82 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="logger.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Styles\Style.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="Images\32x32\bookmark.png" />
+    <Resource Include="Images\32x32\bookmarks_list_add.png" />
+    <Resource Include="Images\32x32\bookmark_add.png" />
+    <Resource Include="Images\32x32\bookmark_folder.png" />
+    <Resource Include="Images\32x32\bookmark_toolbar.png" />
+    <Resource Include="Images\32x32\connect_creating.png" />
+    <Resource Include="Images\32x32\connect_established.png" />
+    <Resource Include="Images\32x32\connect_no.png" />
+    <Resource Include="Images\32x32\db.png" />
+    <Resource Include="Images\32x32\db_add.png" />
+    <Resource Include="Images\32x32\db_comit.png" />
+    <Resource Include="Images\32x32\db_remove.png" />
+    <Resource Include="Images\32x32\db_status.png" />
+    <Resource Include="Images\32x32\db_update.png" />
+    <Resource Include="Images\32x32\folder.png" />
+    <Resource Include="Images\32x32\folder_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\bookmark.png" />
+    <Resource Include="Images\16x16\bookmarks_list_add.png" />
+    <Resource Include="Images\16x16\bookmark_add.png" />
+    <Resource Include="Images\16x16\bookmark_folder.png" />
+    <Resource Include="Images\16x16\bookmark_toolbar.png" />
+    <Resource Include="Images\16x16\connect_creating.png" />
+    <Resource Include="Images\16x16\connect_established.png" />
+    <Resource Include="Images\16x16\connect_no.png" />
+    <Resource Include="Images\16x16\db.png" />
+    <Resource Include="Images\16x16\db_add.png" />
+    <Resource Include="Images\16x16\db_comit.png" />
+    <Resource Include="Images\16x16\db_remove.png" />
+    <Resource Include="Images\16x16\db_status.png" />
+    <Resource Include="Images\16x16\db_update.png" />
+    <Resource Include="Images\16x16\folder.png" />
+    <Resource Include="Images\16x16\folder_new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\32x32\exit.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\32x32\view_multicolumn.png" />
+    <Resource Include="Images\32x32\view_text.png" />
+    <Resource Include="Images\32x32\view_tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\16x16\view_multicolumn.png" />
+    <Resource Include="Images\16x16\view_text.png" />
+    <Resource Include="Images\16x16\view_tree.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

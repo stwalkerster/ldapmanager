@@ -1,0 +1,88 @@
+﻿<fluent:RibbonWindow x:Class="LdapManager.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:fluent="urn:fluent-ribbon"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="ShellView" Height="465" Width="1178"
+        Icon="pack://application:,,,/LdapManager;component/Images/16x16/db.png">
+    
+    <fluent:RibbonWindow.Resources>
+        <Style x:Key="OpenConnectionStyle">
+            <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action OpenConnection]" />
+            <!--<Setter Property="cal:Action.TargetWithoutContext" Value="{Binding DataContext, ElementName=ConnectToBookmark}" />-->
+        </Style>
+    </fluent:RibbonWindow.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <fluent:Ribbon>
+            <fluent:RibbonTabItem Header="LDAP Manager">
+                <fluent:RibbonGroupBox Header="">
+                    <fluent:DropDownButton x:Name="ConnectToBookmark" IsEnabled="False" Header="Bookmarks" Size="Large" Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_folder.png" LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/bookmark_folder.png"
+                                           UsesItemContainerTemplate="False">
+                        <fluent:Gallery ItemsSource="{Binding Bookmarks}" Selectable="False">
+                            <fluent:Gallery.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Padding="4" BorderBrush="LightGray" BorderThickness="1" Style="{StaticResource OpenConnectionStyle}">
+                                        <Grid Style="{StaticResource OpenConnectionStyle}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" SharedSizeGroup="IconWidth" />
+                                                <ColumnDefinition Width="*" SharedSizeGroup="TextWidth"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Border Padding="4" Style="{StaticResource OpenConnectionStyle}">
+                                                <Image Source="pack://application:,,,/LdapManager;component/Images/16x16/bookmark.png" Style="{StaticResource OpenConnectionStyle}" />
+                                            </Border>
+                                            <Border Grid.Column="1"  Padding="4" Style="{StaticResource OpenConnectionStyle}">
+                                                <TextBlock Text="{Binding DisplayName}" Style="{StaticResource OpenConnectionStyle}"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </fluent:Gallery.ItemTemplate>
+                            
+                        </fluent:Gallery>
+
+                        <fluent:MenuItem x:Name="AddBookmark" Header="Add Bookmark"  Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_add.png" />
+                        <fluent:MenuItem x:Name="EditBookmarks" Header="Edit Bookmarks" Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_toolbar.png" />
+                    </fluent:DropDownButton>
+                    <fluent:Button Style="{StaticResource OpenConnectionStyle}" Header="Connect" LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/connect_creating.png"></fluent:Button>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+        </fluent:Ribbon>
+        
+        <TabControl Grid.Row="1" x:Name="Items" TabStripPlacement="Bottom">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding DisplayName}" Padding="0,2,5,0" />
+                        <Button Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Width="20" Height="20" cal:Message.Attach="CloseConnection($dataContext)">
+                            <Path Data="M 1,0 0,0 0,1 2.75,3.75 0,6.5 l 0,1 1,0 2.75,-2.75 2.75,2.75 1,0 0,-1 L 4.75,3.75 7.5,1 7.5,0 6.5,0 3.75,2.75 z" Fill="Black"/>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ItemContainerStyle>
+                <Style TargetType="TabItem">
+                    <Setter Property="Background" Value="#FFDDDDDD" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.ItemContainerStyle>
+        </TabControl>
+        
+        <fluent:StatusBar Grid.Row="2">
+            <fluent:StatusBarItem Title="Disconnected" HorizontalAlignment="Left">
+                <TextBlock Text="StatusBar!" />
+            </fluent:StatusBarItem>
+        </fluent:StatusBar>
+    </Grid>
+</fluent:RibbonWindow>
