@@ -22,15 +22,20 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace LdapManager.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
+
     using Caliburn.Micro;
 
     using LdapManager.Models;
+    using LdapManager.Services.Interfaces;
+    using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
 
     /// <summary>
     /// The manager view model.
     /// </summary>
-    public class ManagerViewModel : Screen, IManagerViewModel
+    public class ManagerViewModel : Screen, IManagerViewModel, IDisposable
     {
         #region Fields
 
@@ -38,6 +43,16 @@ namespace LdapManager.ViewModels
         /// The bookmark.
         /// </summary>
         private readonly ConnectionBookmark bookmark;
+
+        /// <summary>
+        /// The connection service factory.
+        /// </summary>
+        private readonly IConnectionServiceFactory connectionServiceFactory;
+
+        /// <summary>
+        /// The connection service.
+        /// </summary>
+        private IConnectionService connectionService;
 
         #endregion
 
@@ -49,14 +64,35 @@ namespace LdapManager.ViewModels
         /// <param name="bookmark">
         /// The bookmark.
         /// </param>
-        public ManagerViewModel(ConnectionBookmark bookmark)
+        /// <param name="connectionServiceFactory">
+        /// The connection Service Factory.
+        /// </param>
+        public ManagerViewModel(ConnectionBookmark bookmark, IConnectionServiceFactory connectionServiceFactory)
         {
             this.bookmark = bookmark;
+            this.connectionServiceFactory = connectionServiceFactory;
+            this.connectionService = this.connectionServiceFactory.Create(bookmark);
         }
 
         #endregion
 
         #region Public Properties
+
+        /// <summary>
+        /// Gets or sets the directory root.
+        /// </summary>
+        public DirectoryEntry DirectoryRoot { get; set; }
+
+        /// <summary>
+        /// Gets the directory tree.
+        /// </summary>
+        public IEnumerable<DirectoryEntry> DirectoryTree
+        {
+            get
+            {
+                return new List<DirectoryEntry> { this.DirectoryRoot };
+            }
+        }
 
         /// <summary>
         /// Gets or sets the display name.
@@ -72,6 +108,46 @@ namespace LdapManager.ViewModels
             {
                 this.bookmark.DisplayName = value;
             }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The dispose.
+        /// </summary>
+        public void Dispose()
+        {
+            this.connectionServiceFactory.Release(this.connectionService);
+            this.connectionService = null;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// The on deactivate.
+        /// </summary>
+        /// <param name="close">
+        /// The close.
+        /// </param>
+        protected override void OnDeactivate(bool close)
+        {
+            if (close)
+            {
+                // Closing logic here
+            }
+        }
+
+        /// <summary>
+        /// The on initialize.
+        /// </summary>
+        protected override void OnInitialize()
+        {
+            this.connectionService.Bind();
+            this.DirectoryRoot = this.connectionService.DirectoryRoot;
         }
 
         #endregion

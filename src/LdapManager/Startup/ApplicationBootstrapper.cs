@@ -30,11 +30,15 @@ namespace LdapManager.Startup
     using Caliburn.Micro;
 
     using Castle.Facilities.Logging;
+    using Castle.Facilities.TypedFactory;
     using Castle.MicroKernel.Registration;
     using Castle.Windsor;
 
-    using LdapManager.ViewModels;
+    using LdapManager.Factories;
+    using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
+
+    using Microsoft.Practices.ServiceLocation;
 
     /// <summary>
     /// The bootstrapper.
@@ -72,7 +76,7 @@ namespace LdapManager.Startup
             this.container = new WindsorContainer();
 
             this.container.AddFacility<EventRegistrationFacility>();
-
+            this.container.AddFacility<TypedFactoryFacility>();
             this.container.AddFacility<LoggingFacility>(f => f.UseLog4Net().WithConfig("logger.config"));
 
             var viewModelRegistrations = Classes.FromThisAssembly()
@@ -84,7 +88,11 @@ namespace LdapManager.Startup
                 Component.For<IWindowManager>().ImplementedBy<WindowManager>().LifestyleSingleton(),
                 Component.For<IEventAggregator>().ImplementedBy<EventAggregator>().LifestyleSingleton(),
                 Classes.FromThisAssembly().InNamespace("LdapManager.Services").WithServiceAllInterfaces().LifestyleSingleton(),
-                viewModelRegistrations);
+                viewModelRegistrations,
+                Component.For<AttributeTypeConverter>().LifestyleSingleton(),
+                Component.For<IConnectionServiceFactory>().AsFactory());
+
+            ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(this.container));
         }
 
         /// <summary>
@@ -94,7 +102,7 @@ namespace LdapManager.Startup
         /// The service.
         /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable"/>.
+        /// The <see cref="IEnumerable{Object}"/>.
         /// </returns>
         protected override IEnumerable<object> GetAllInstances(Type service)
         {

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BookmarkService.cs" company="Simon Walker">
+// <copyright file="IConnectionService.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,53 +17,62 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   The bookmark service.
+//   The ConnectionService interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace LdapManager.Services
+namespace LdapManager.Services.Interfaces
 {
+    using System.Collections;
     using System.Collections.Generic;
 
     using LdapManager.Models;
-    using LdapManager.Services.Interfaces;
 
     /// <summary>
-    /// The bookmark service.
+    /// The ConnectionService interface.
     /// </summary>
-    public class BookmarkService : IBookmarkService
+    public interface IConnectionService
     {
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the directory root.
+        /// </summary>
+        DirectoryEntry DirectoryRoot { get; }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
-        /// The get bookmarks.
+        /// The bind.
         /// </summary>
-        /// <returns>
-        /// The <see cref="IEnumerable{ConnectionBookmark}"/>.
-        /// </returns>
-        public IEnumerable<ConnectionBookmark> GetBookmarks()
-        {
-            return new List<ConnectionBookmark>
-                       {
-                           new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "stw@dir"),
-                         /*      new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "random other account with a longer name"),*/
-                       };
-        }
+        void Bind();
 
         #endregion
+
+        /// <summary>
+        /// The get attributes.
+        /// </summary>
+        /// <param name="distinguishedName">
+        /// The distinguished name.
+        /// </param>
+        /// <param name="attributes">
+        /// The attributes.
+        /// </param>
+        /// <returns>
+        /// The <see cref="List{DirectoryAttribute}"/>.
+        /// </returns>
+        IEnumerable<DirectoryAttribute> GetAttributes(string distinguishedName, params string[] attributes);
+
+        /// <summary>
+        /// The fetch children.
+        /// </summary>
+        /// <param name="distinguishedName">
+        /// The distinguished name.
+        /// </param>
+        /// <returns>
+        /// The <see cref="IEnumerable"/>.
+        /// </returns>
+        IEnumerable<DirectoryEntry> FetchChildren(string distinguishedName);
     }
 }

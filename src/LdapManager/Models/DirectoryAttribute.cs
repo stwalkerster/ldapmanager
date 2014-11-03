@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BookmarkService.cs" company="Simon Walker">
+// <copyright file="DirectoryAttribute.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,51 +17,75 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   The bookmark service.
+//   The directory attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace LdapManager.Services
+namespace LdapManager.Models
 {
-    using System.Collections.Generic;
-
-    using LdapManager.Models;
-    using LdapManager.Services.Interfaces;
+    using System.Linq;
 
     /// <summary>
-    /// The bookmark service.
+    /// The directory attribute.
     /// </summary>
-    public class BookmarkService : IBookmarkService
+    public class DirectoryAttribute
     {
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DirectoryAttribute"/> class.
+        /// </summary>
+        /// <param name="fromString">
+        /// The from string.
+        /// </param>
+        public DirectoryAttribute(string fromString)
+        {
+            var strings = fromString.Split('=');
+            this.Name = strings.First();
+            this.Value = strings.Last();
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DirectoryAttribute"/> class.
+        /// </summary>
+        /// <param name="name">
+        /// The name.
+        /// </param>
+        /// <param name="value">
+        /// The value.
+        /// </param>
+        public DirectoryAttribute(string name, object value)
+        {
+            this.Name = name;
+            this.Value = value;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        /// <summary>
+        /// Gets the name.
+        /// </summary>
+        public string Name { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the values.
+        /// </summary>
+        public object Value { get; set; }
+
+        #endregion
+
         #region Public Methods and Operators
 
         /// <summary>
-        /// The get bookmarks.
+        /// The to string.
         /// </summary>
         /// <returns>
-        /// The <see cref="IEnumerable{ConnectionBookmark}"/>.
+        /// The <see cref="string"/>.
         /// </returns>
-        public IEnumerable<ConnectionBookmark> GetBookmarks()
+        public override string ToString()
         {
-            return new List<ConnectionBookmark>
-                       {
-                           new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "stw@dir"),
-                         /*      new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "random other account with a longer name"),*/
-                       };
+            return string.Format("{0}={1}", this.Name, this.Value);
         }
 
         #endregion

@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:fluent="urn:fluent-ribbon"
         xmlns:cal="http://www.caliburnproject.org"
-        Title="ShellView" Height="465" Width="1178"
+        xmlns:properties="clr-namespace:LdapManager.Properties"
+        Title="{Binding ActiveItem.DisplayName, Converter={StaticResource WindowTitleConverter}, FallbackValue={x:Static properties:Resources.ApplicationName}}" Height="465" Width="1178"
         Icon="pack://application:,,,/LdapManager;component/Images/16x16/db.png">
     
     <fluent:RibbonWindow.Resources>
@@ -22,9 +23,11 @@
         </Grid.RowDefinitions>
 
         <fluent:Ribbon>
-            <fluent:RibbonTabItem Header="LDAP Manager">
+            <fluent:RibbonTabItem Header="{x:Static properties:Resources.ApplicationName}">
                 <fluent:RibbonGroupBox Header="">
-                    <fluent:DropDownButton x:Name="ConnectToBookmark" IsEnabled="False" Header="Bookmarks" Size="Large" Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_folder.png" LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/bookmark_folder.png"
+                    <fluent:DropDownButton x:Name="ConnectToBookmark" IsEnabled="False" Header="{x:Static properties:Resources.Bookmarks}" Size="Large" 
+                                           Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_folder.png" 
+                                           LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/bookmark_folder.png"
                                            UsesItemContainerTemplate="False">
                         <fluent:Gallery ItemsSource="{Binding Bookmarks}" Selectable="False">
                             <fluent:Gallery.ItemTemplate>
@@ -48,10 +51,10 @@
                             
                         </fluent:Gallery>
 
-                        <fluent:MenuItem x:Name="AddBookmark" Header="Add Bookmark"  Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_add.png" />
-                        <fluent:MenuItem x:Name="EditBookmarks" Header="Edit Bookmarks" Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_toolbar.png" />
+                        <fluent:MenuItem x:Name="AddBookmark" Header="{x:Static properties:Resources.AddBookmark}"  Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_add.png" />
+                        <fluent:MenuItem x:Name="EditBookmarks" Header="{x:Static properties:Resources.EditBookmarks}" Icon="pack://application:,,,/LdapManager;component/Images/16x16/bookmark_toolbar.png" />
                     </fluent:DropDownButton>
-                    <fluent:Button Style="{StaticResource OpenConnectionStyle}" Header="Connect" LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/connect_creating.png"></fluent:Button>
+                    <fluent:Button Style="{StaticResource OpenConnectionStyle}" Header="{x:Static properties:Resources.Connect}" LargeIcon="pack://application:,,,/LdapManager;component/Images/32x32/connect_creating.png"></fluent:Button>
                 </fluent:RibbonGroupBox>
             </fluent:RibbonTabItem>
         </fluent:Ribbon>
@@ -80,7 +83,7 @@
         </TabControl>
         
         <fluent:StatusBar Grid.Row="2">
-            <fluent:StatusBarItem Title="Disconnected" HorizontalAlignment="Left">
+            <fluent:StatusBarItem  HorizontalAlignment="Left">
                 <TextBlock Text="StatusBar!" />
             </fluent:StatusBarItem>
         </fluent:StatusBar>

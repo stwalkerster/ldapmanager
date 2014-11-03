@@ -1,5 +1,5 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ManagerView.xaml.cs" company="Simon Walker">
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="AttributeTypeConverter.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,27 +17,57 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   Interaction logic for ManagerView.xaml
+//   The attribute converter.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace LdapManager.Views
+namespace LdapManager.Factories
 {
-    using System.Windows.Controls;
+    using Castle.Core.Logging;
 
     /// <summary>
-    /// Interaction logic for ManagerView.xaml
+    /// The attribute converter.
     /// </summary>
-    public partial class ManagerView : UserControl
+    public class AttributeTypeConverter
     {
+        #region Fields
+
+        /// <summary>
+        /// The logger.
+        /// </summary>
+        private readonly ILogger logger;
+
+        #endregion
+
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ManagerView"/> class.
-        /// </summary>
-        public ManagerView()
+        /// Initialises a new instance of the <see cref="AttributeTypeConverter"/> class.
+        /// </summary>56
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        public AttributeTypeConverter(ILogger logger)
         {
-            this.InitializeComponent();
+            this.logger = logger;
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        /// <summary>
+        /// The convert.
+        /// </summary>
+        /// <param name="bytes">
+        /// The bytes.
+        /// </param>
+        /// <returns>
+        /// The <see cref="object"/>.
+        /// </returns>
+        public object Convert(byte[] bytes)
+        {
+            this.logger.Debug("Not converting attribute!");
+            return bytes;
         }
 
         #endregion

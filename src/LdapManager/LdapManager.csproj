@@ -62,8 +62,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\packages\CommonServiceLocation.1.0.0\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.2.0.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
@@ -88,11 +94,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converter\WindowTitleConverter.cs" />
+    <Compile Include="Factories\AttributeTypeConverter.cs" />
+    <Compile Include="Converter\AttributeGridConverter.cs" />
+    <Compile Include="Converter\DirectoryEntryIconConverter.cs" />
+    <Compile Include="Factories\AttributeFactory.cs" />
+    <Compile Include="Factories\DirectoryEntryFactory.cs" />
+    <Compile Include="Models\DirectoryAttribute.cs" />
+    <Compile Include="Models\DirectoryEntry.cs" />
     <Compile Include="Services\BookmarkService.cs" />
+    <Compile Include="Services\ConnectionService.cs" />
     <Compile Include="Services\Interfaces\IBookmarkService.cs" />
+    <Compile Include="Services\Interfaces\IConnectionService.cs" />
     <Compile Include="Startup\EventRegistrationFacility.cs" />
     <Compile Include="Models\ConnectionBookmark.cs" />
     <Compile Include="Startup\ApplicationBootstrapper.cs" />
+    <Compile Include="Startup\WindsorServiceLocator.cs" />
+    <Compile Include="TypedFactories\IConnectionServiceFactory.cs" />
     <Compile Include="ViewModels\Interfaces\IManagerViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IShellViewModel.cs" />
     <Compile Include="ViewModels\ManagerViewModel.cs" />
@@ -119,7 +137,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="logger.config">
@@ -188,7 +206,16 @@
   <ItemGroup>
     <Resource Include="Images\32x32\exit.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\16x16\folder_blue.png" />
+    <Resource Include="Images\16x16\folder_favorites.png" />
+    <Resource Include="Images\16x16\folder_green.png" />
+    <Resource Include="Images\16x16\folder_grey.png" />
+    <Resource Include="Images\16x16\folder_home.png" />
+    <Resource Include="Images\16x16\folder_html.png" />
+    <Resource Include="Images\16x16\folder_locked.png" />
+    <Resource Include="Images\16x16\folder_open.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\32x32\view_multicolumn.png" />
     <Resource Include="Images\32x32\view_text.png" />
@@ -198,6 +225,9 @@
     <Resource Include="Images\16x16\view_multicolumn.png" />
     <Resource Include="Images\16x16\view_text.png" />
     <Resource Include="Images\16x16\view_tree.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

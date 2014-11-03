@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BookmarkService.cs" company="Simon Walker">
+// <copyright file="IConnectionServiceFactory.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,52 +17,40 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   The bookmark service.
+//   The ConnectionServiceFactory interface.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LdapManager.Services
+namespace LdapManager.TypedFactories
 {
-    using System.Collections.Generic;
-
     using LdapManager.Models;
     using LdapManager.Services.Interfaces;
 
     /// <summary>
-    /// The bookmark service.
+    /// The ConnectionServiceFactory interface.
     /// </summary>
-    public class BookmarkService : IBookmarkService
+    public interface IConnectionServiceFactory
     {
         #region Public Methods and Operators
 
         /// <summary>
-        /// The get bookmarks.
+        /// The create.
         /// </summary>
+        /// <param name="bookmark">
+        /// The bookmark.
+        /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable{ConnectionBookmark}"/>.
+        /// The <see cref="IConnectionService"/>.
         /// </returns>
-        public IEnumerable<ConnectionBookmark> GetBookmarks()
-        {
-            return new List<ConnectionBookmark>
-                       {
-                           new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "stw@dir"),
-                         /*      new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "random other account with a longer name"),*/
-                       };
-        }
+        IConnectionService Create(ConnectionBookmark bookmark);
+
+        /// <summary>
+        /// The release.
+        /// </summary>
+        /// <param name="connectionService">
+        /// The connection service.
+        /// </param>
+        void Release(IConnectionService connectionService);
 
         #endregion
     }

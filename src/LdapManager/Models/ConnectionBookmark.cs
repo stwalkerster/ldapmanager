@@ -20,9 +20,10 @@
 //   The connection bookmark.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace LdapManager.Models
 {
+    using System.DirectoryServices.Protocols;
+
     using Caliburn.Micro;
 
     /// <summary>
@@ -53,7 +54,17 @@ namespace LdapManager.Models
         /// <param name="version">
         /// The version.
         /// </param>
-        public ConnectionBookmark(string host, int port, string bindDn, string bindPassword, string baseDn, int version, string displayName)
+        /// <param name="displayName">
+        /// The display Name.
+        /// </param>
+        public ConnectionBookmark(
+            string host, 
+            int port, 
+            string bindDn, 
+            string bindPassword, 
+            string baseDn, 
+            int version, 
+            string displayName)
         {
             this.Port = port;
             this.BindDn = bindDn;
@@ -62,6 +73,35 @@ namespace LdapManager.Models
             this.Version = version;
             this.Host = host;
             this.DisplayName = displayName;
+            this.AuthType = AuthType.Basic;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="ConnectionBookmark"/> class.
+        /// </summary>
+        /// <param name="host">
+        /// The host.
+        /// </param>
+        /// <param name="port">
+        /// The port.
+        /// </param>
+        /// <param name="baseDn">
+        /// The base dn.
+        /// </param>
+        /// <param name="version">
+        /// The version.
+        /// </param>
+        /// <param name="displayName">
+        /// The display name.
+        /// </param>
+        public ConnectionBookmark(string host, int port, string baseDn, int version, string displayName)
+        {
+            this.Port = port;
+            this.BaseDn = baseDn;
+            this.Version = version;
+            this.Host = host;
+            this.DisplayName = displayName;
+            this.AuthType = AuthType.Anonymous;
         }
 
         #endregion
@@ -69,19 +109,29 @@ namespace LdapManager.Models
         #region Public Properties
 
         /// <summary>
+        /// Gets or sets the auth type.
+        /// </summary>
+        public AuthType AuthType { get; set; }
+
+        /// <summary>
         /// Gets the base DN.
         /// </summary>
-        public string BaseDn { get;  set; }
+        public string BaseDn { get; set; }
 
         /// <summary>
         /// Gets the bind DN.
         /// </summary>
-        public string BindDn { get;  set; }
+        public string BindDn { get; set; }
 
         /// <summary>
         /// Gets the bind password.
         /// </summary>
-        public string BindPassword { get;  set; }
+        public string BindPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets the display name.
+        /// </summary>
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the host.
@@ -96,15 +146,23 @@ namespace LdapManager.Models
         /// <summary>
         /// Gets the version.
         /// </summary>
-        public int Version { get;  set; }
+        public int Version { get; set; }
 
         #endregion
 
-        public string DisplayName { get; set; }
+        #region Public Methods and Operators
 
+        /// <summary>
+        /// The to string.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="string"/>.
+        /// </returns>
         public override string ToString()
         {
             return this.DisplayName;
         }
+
+        #endregion
     }
 }

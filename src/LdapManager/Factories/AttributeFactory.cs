@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="BookmarkService.cs" company="Simon Walker">
+// <copyright file="AttributeFactory.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,51 +17,38 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   The bookmark service.
+//   The attribute factory.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace LdapManager.Services
+namespace LdapManager.Factories
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using LdapManager.Models;
-    using LdapManager.Services.Interfaces;
+
+    using SystemDirectoryAttribute = System.DirectoryServices.Protocols.DirectoryAttribute;
 
     /// <summary>
-    /// The bookmark service.
+    /// The attribute factory.
     /// </summary>
-    public class BookmarkService : IBookmarkService
+    public class AttributeFactory
     {
         #region Public Methods and Operators
 
         /// <summary>
-        /// The get bookmarks.
+        /// The create.
         /// </summary>
+        /// <param name="attribute">
+        /// The attribute.
+        /// </param>
         /// <returns>
-        /// The <see cref="IEnumerable{ConnectionBookmark}"/>.
+        /// The <see cref="DirectoryAttribute"/>.
         /// </returns>
-        public IEnumerable<ConnectionBookmark> GetBookmarks()
+        public static IEnumerable<DirectoryAttribute> Create(SystemDirectoryAttribute attribute)
         {
-            return new List<ConnectionBookmark>
-                       {
-                           new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "stw@dir"),
-                         /*      new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
-                               389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "random other account with a longer name"),*/
-                       };
+            return attribute.GetValues(typeof(string)).Select(value => new DirectoryAttribute(attribute.Name, value)).ToList();
         }
 
         #endregion

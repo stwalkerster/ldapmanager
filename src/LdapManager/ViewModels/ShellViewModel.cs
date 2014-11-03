@@ -22,7 +22,9 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace LdapManager.ViewModels
 {
+    using System;
     using System.Collections.Generic;
+    using System.Windows;
 
     using Caliburn.Micro;
 
@@ -31,6 +33,7 @@ namespace LdapManager.ViewModels
 
     using LdapManager.Models;
     using LdapManager.Services.Interfaces;
+    using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
 
     /// <summary>
@@ -51,9 +54,9 @@ namespace LdapManager.ViewModels
         private readonly ILogger logger;
 
         /// <summary>
-        /// The window manager.
+        /// The connection service factory.
         /// </summary>
-        private readonly IWindowManager windowManager;
+        private readonly IConnectionServiceFactory connectionServiceFactory;
 
         #endregion
 
@@ -68,14 +71,14 @@ namespace LdapManager.ViewModels
         /// <param name="logger">
         /// The logger.
         /// </param>
-        /// <param name="windowManager">
-        /// The window Manager.
+        /// <param name="connectionServiceFactory">
+        /// The connection Service Factory.
         /// </param>
-        public ShellViewModel(IBookmarkService bookmarkService, ILogger logger, IWindowManager windowManager)
+        public ShellViewModel(IBookmarkService bookmarkService, ILogger logger, IConnectionServiceFactory connectionServiceFactory)
         {
             this.bookmarkService = bookmarkService;
             this.logger = logger;
-            this.windowManager = windowManager;
+            this.connectionServiceFactory = connectionServiceFactory;
         }
 
         #endregion
@@ -115,7 +118,22 @@ namespace LdapManager.ViewModels
         public void OpenConnection()
         {
             // this.logger.Debug("");
-            this.Bookmarks.ForEach(x => this.ActivateItem(new ManagerViewModel(x)));
+            this.Bookmarks.ForEach(
+                x =>
+                {
+                    var managerViewModel = new ManagerViewModel(x, this.connectionServiceFactory);
+
+                    try
+                    {
+                        this.ActivateItem(managerViewModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.ErrorFormat(ex, "Error opening managerviewmodel for connection {0}", x.DisplayName);
+                        managerViewModel.TryClose();
+                        MessageBox.Show(ex.Message, x.DisplayName);
+                    }
+                });
         }
 
         #endregion
