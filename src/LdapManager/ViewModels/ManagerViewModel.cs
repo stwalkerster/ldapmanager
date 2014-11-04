@@ -28,6 +28,7 @@ namespace LdapManager.ViewModels
     using Caliburn.Micro;
 
     using LdapManager.Models;
+    using LdapManager.Services;
     using LdapManager.Services.Interfaces;
     using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
@@ -148,6 +149,8 @@ namespace LdapManager.ViewModels
         {
             this.connectionService.Bind();
             this.DirectoryRoot = this.connectionService.DirectoryRoot;
+
+            ((ConnectionService)this.connectionService).GetSchema();
         }
 
         #endregion

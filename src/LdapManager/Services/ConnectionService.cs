@@ -226,6 +226,44 @@ namespace LdapManager.Services
             throw new Exception("Root not found");
         }
 
+        public IEnumerable<string> GetBaseDNs()
+        {
+            var searchRequest = new SearchRequest(string.Empty, "(objectClass=*)", SearchScope.Base, "namingContexts");
+            var directoryResponse = (SearchResponse)this.ldapConnection.SendRequest(searchRequest);
+
+            if (directoryResponse != null)
+            {
+                return
+                    directoryResponse.Entries[0].Attributes["namingcontexts"].GetValues(typeof(string)).Cast<string>();
+            }
+
+            return new List<string>();
+        }
+
+        public void GetSchema()
+        {
+            var searchRequest = new SearchRequest(this.bookmark.BaseDn, "(objectClass=*)", SearchScope.Base, "subschemasubentry");
+            var directoryResponse = (SearchResponse)this.ldapConnection.SendRequest(searchRequest);
+
+            if (directoryResponse == null)
+            {
+                return;
+            }
+
+            var subschemaBaseDn = directoryResponse.Entries[0].Attributes["subschemasubentry"].GetValues(typeof(string)).Cast<string>().First();
+            
+            searchRequest = new SearchRequest(subschemaBaseDn, "(objectClass=subschema)", SearchScope.Base, "objectclasses", "attributetypes");
+            directoryResponse = (SearchResponse)this.ldapConnection.SendRequest(searchRequest);
+
+            if (directoryResponse == null)
+            {
+                return;
+            }
+
+            var objectClasses = directoryResponse.Entries[0].Attributes["objectclasses"].GetValues(typeof(string)).Cast<string>();
+            var attributeTypes = directoryResponse.Entries[0].Attributes["attributetypes"].GetValues(typeof(string)).Cast<string>();
+        }
+
         #endregion
     }
 }
