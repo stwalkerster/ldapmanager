@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="CommonAssemblyInfo.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,15 +17,20 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   AssemblyInfo.cs
+//   CommonAssemblyInfo.cs
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
-using System.Resources;
-using System.Windows;
+using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("LdapManager")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en-GB", UltimateResourceFallbackLocation.Satellite)]
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyDescription("LDAP Management tool")]
+
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Simon Walker")]
+[assembly: AssemblyProduct("LDAP Manager")]
+[assembly: AssemblyCopyright("Copyright © Simon Walker 2014")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+[assembly: ComVisible(false)]

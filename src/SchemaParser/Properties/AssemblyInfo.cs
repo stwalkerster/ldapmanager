@@ -22,10 +22,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Reflection;
-using System.Resources;
-using System.Windows;
 
-[assembly: AssemblyTitle("LdapManager")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en-GB", UltimateResourceFallbackLocation.Satellite)]
+[assembly: AssemblyTitle("LdapManager.Schema")]
 [assembly: AssemblyVersion("1.0.*")]

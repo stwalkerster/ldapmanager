@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="ObjectClassType.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,15 +17,30 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   AssemblyInfo.cs
+//   The object class type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Reflection;
-using System.Resources;
-using System.Windows;
+namespace LdapManager.Schema.Models
+{
+    /// <summary>
+    /// The object class type.
+    /// </summary>
+    internal enum ObjectClassType
+    {
+        /// <summary>
+        /// The auxiliary.
+        /// </summary>
+        Auxiliary = 0, 
 
-[assembly: AssemblyTitle("LdapManager")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en-GB", UltimateResourceFallbackLocation.Satellite)]
-[assembly: AssemblyVersion("1.0.*")]
+        /// <summary>
+        /// The structural.
+        /// </summary>
+        Structural = 1, 
+
+        /// <summary>
+        /// The abstract.
+        /// </summary>
+        Abstract = 2
+    }
+}

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="Attribute.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,15 +17,16 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   AssemblyInfo.cs
+//   The attribute.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Reflection;
-using System.Resources;
-using System.Windows;
-
-[assembly: AssemblyTitle("LdapManager")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en-GB", UltimateResourceFallbackLocation.Satellite)]
-[assembly: AssemblyVersion("1.0.*")]
+namespace LdapManager.Schema.Models
+{
+    /// <summary>
+    /// The attribute.
+    /// </summary>
+    public class Attribute
+    {
+    }
+}

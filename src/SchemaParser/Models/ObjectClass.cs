@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AssemblyInfo.cs" company="Simon Walker">
+// <copyright file="ObjectClass.cs" company="Simon Walker">
 //   Copyright (C) 2014 Simon Walker
 //   
 //   Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
@@ -17,15 +17,30 @@
 //   SOFTWARE.
 // </copyright>
 // <summary>
-//   AssemblyInfo.cs
+//   The object class.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Reflection;
-using System.Resources;
-using System.Windows;
+namespace LdapManager.Schema.Models
+{
+    using System.Collections.Generic;
 
-[assembly: AssemblyTitle("LdapManager")]
-[assembly: ThemeInfo(ResourceDictionaryLocation.None, ResourceDictionaryLocation.SourceAssembly)]
-[assembly: NeutralResourcesLanguage("en-GB", UltimateResourceFallbackLocation.Satellite)]
-[assembly: AssemblyVersion("1.0.*")]
+    /// <summary>
+    /// The object class.
+    /// </summary>
+    public class ObjectClass
+    {
+        private string oid;
+
+        private string name;
+        private string description;
+
+        private object sup;
+
+        private ObjectClassType type;
+
+        private IEnumerable<Attribute> may;
+
+        private IEnumerable<Attribute> must;
+    }
+}
