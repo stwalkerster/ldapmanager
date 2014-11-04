@@ -20,7 +20,7 @@
 //   The connection service.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-namespace LdapManager.Services
+namespace LdapManager.Services.Transient
 {
     using System;
     using System.Collections;
@@ -100,13 +100,15 @@ namespace LdapManager.Services
             switch (this.bookmark.AuthType)
             {
                 case AuthType.Basic:
-                    var networkCredential = new NetworkCredential(this.bookmark.BindDn, this.bookmark.BindPassword);
+                case AuthType.Ntlm:
+                case AuthType.Negotiate:
+                case AuthType.Msn:
+                    var networkCredential = bookmark.NetworkCredential;
 
                     this.ldapConnection = new LdapConnection(ldapDirectoryIdentifier, networkCredential)
                                               {
                                                   AuthType =
-                                                      AuthType
-                                                      .Basic
+                                                      this.bookmark.AuthType
                                               };
                     break;
                 case AuthType.Anonymous:
@@ -233,8 +235,8 @@ namespace LdapManager.Services
 
             if (directoryResponse != null)
             {
-                return
-                    directoryResponse.Entries[0].Attributes["namingcontexts"].GetValues(typeof(string)).Cast<string>();
+                var baseDNs = directoryResponse.Entries[0].Attributes["namingcontexts"].GetValues(typeof(string)).Cast<string>();
+                return baseDNs;
             }
 
             return new List<string>();

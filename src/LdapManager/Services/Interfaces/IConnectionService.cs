@@ -74,5 +74,7 @@ namespace LdapManager.Services.Interfaces
         /// The <see cref="IEnumerable"/>.
         /// </returns>
         IEnumerable<DirectoryEntry> FetchChildren(string distinguishedName);
+
+        IEnumerable<string> GetBaseDNs();
     }
 }

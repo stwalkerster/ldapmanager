@@ -35,6 +35,9 @@ namespace LdapManager.Startup
     using Castle.Windsor;
 
     using LdapManager.Factories;
+    using LdapManager.Services;
+    using LdapManager.Services.Interfaces;
+    using LdapManager.Services.Transient;
     using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
 
@@ -90,7 +93,8 @@ namespace LdapManager.Startup
                 Classes.FromThisAssembly().InNamespace("LdapManager.Services").WithServiceAllInterfaces().LifestyleSingleton(),
                 viewModelRegistrations,
                 Component.For<AttributeTypeConverter>().LifestyleSingleton(),
-                Component.For<IConnectionServiceFactory>().AsFactory());
+                Component.For<IConnectionServiceFactory>().AsFactory(),
+                Component.For<IConnectionService>().ImplementedBy<ConnectionService>().LifestyleTransient());
 
             ServiceLocator.SetLocatorProvider(() => new WindsorServiceLocator(this.container));
         }

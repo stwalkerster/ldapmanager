@@ -23,6 +23,7 @@
 namespace LdapManager.Models
 {
     using System.DirectoryServices.Protocols;
+    using System.Net;
 
     using Caliburn.Micro;
 
@@ -36,17 +37,56 @@ namespace LdapManager.Models
         /// <summary>
         /// Initialises a new instance of the <see cref="ConnectionBookmark"/> class.
         /// </summary>
+        /// <param name="displayName">
+        /// The display name.
+        /// </param>
         /// <param name="host">
         /// The host.
         /// </param>
         /// <param name="port">
         /// The port.
         /// </param>
-        /// <param name="bindDn">
-        /// The bind DN.
+        /// <param name="baseDn">
+        /// The base DN.
         /// </param>
-        /// <param name="bindPassword">
-        /// The bind password.
+        /// <param name="networkCredential">
+        /// The network Credential.
+        /// </param>
+        /// <param name="authType">
+        /// The authentication type.
+        /// </param>
+        /// <param name="version">
+        /// The version.
+        /// </param>
+        public ConnectionBookmark(
+            string displayName, 
+            string host, 
+            int port, 
+            string baseDn, 
+            NetworkCredential networkCredential, 
+            AuthType authType = AuthType.Basic, 
+            int version = 3)
+        {
+            this.DisplayName = displayName;
+            this.Host = host;
+            this.Port = port;
+            this.NetworkCredential = networkCredential;
+            this.BaseDn = baseDn;
+            this.Version = version;
+            this.AuthType = authType;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="ConnectionBookmark"/> class.
+        /// </summary>
+        /// <param name="displayName">
+        /// The display name.
+        /// </param>
+        /// <param name="host">
+        /// The host.
+        /// </param>
+        /// <param name="port">
+        /// The port.
         /// </param>
         /// <param name="baseDn">
         /// The base DN.
@@ -54,47 +94,7 @@ namespace LdapManager.Models
         /// <param name="version">
         /// The version.
         /// </param>
-        /// <param name="displayName">
-        /// The display Name.
-        /// </param>
-        public ConnectionBookmark(
-            string host, 
-            int port, 
-            string bindDn, 
-            string bindPassword, 
-            string baseDn, 
-            int version, 
-            string displayName)
-        {
-            this.Port = port;
-            this.BindDn = bindDn;
-            this.BindPassword = bindPassword;
-            this.BaseDn = baseDn;
-            this.Version = version;
-            this.Host = host;
-            this.DisplayName = displayName;
-            this.AuthType = AuthType.Basic;
-        }
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="ConnectionBookmark"/> class.
-        /// </summary>
-        /// <param name="host">
-        /// The host.
-        /// </param>
-        /// <param name="port">
-        /// The port.
-        /// </param>
-        /// <param name="baseDn">
-        /// The base dn.
-        /// </param>
-        /// <param name="version">
-        /// The version.
-        /// </param>
-        /// <param name="displayName">
-        /// The display name.
-        /// </param>
-        public ConnectionBookmark(string host, int port, string baseDn, int version, string displayName)
+        public ConnectionBookmark(string displayName, string host, int port, string baseDn, int version = 3)
         {
             this.Port = port;
             this.BaseDn = baseDn;
@@ -102,6 +102,7 @@ namespace LdapManager.Models
             this.Host = host;
             this.DisplayName = displayName;
             this.AuthType = AuthType.Anonymous;
+            this.NetworkCredential = null;
         }
 
         #endregion
@@ -109,24 +110,14 @@ namespace LdapManager.Models
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the auth type.
+        /// Gets or sets the authentication type.
         /// </summary>
         public AuthType AuthType { get; set; }
 
         /// <summary>
-        /// Gets the base DN.
+        /// Gets or sets the base DN.
         /// </summary>
         public string BaseDn { get; set; }
-
-        /// <summary>
-        /// Gets the bind DN.
-        /// </summary>
-        public string BindDn { get; set; }
-
-        /// <summary>
-        /// Gets the bind password.
-        /// </summary>
-        public string BindPassword { get; set; }
 
         /// <summary>
         /// Gets or sets the display name.
@@ -139,12 +130,17 @@ namespace LdapManager.Models
         public string Host { get; set; }
 
         /// <summary>
-        /// Gets the port.
+        /// Gets or sets the network credential.
+        /// </summary>
+        public NetworkCredential NetworkCredential { get; set; }
+
+        /// <summary>
+        /// Gets or sets the port.
         /// </summary>
         public int Port { get; set; }
 
         /// <summary>
-        /// Gets the version.
+        /// Gets or sets the protocol version.
         /// </summary>
         public int Version { get; set; }
 

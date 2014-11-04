@@ -24,6 +24,8 @@
 namespace LdapManager.Services
 {
     using System.Collections.Generic;
+    using System.DirectoryServices.Protocols;
+    using System.Net;
 
     using LdapManager.Models;
     using LdapManager.Services.Interfaces;
@@ -46,21 +48,18 @@ namespace LdapManager.Services
             return new List<ConnectionBookmark>
                        {
                            new ConnectionBookmark(
+                               "stw@dir",
                                "directory.srv.stwalkerster.net",
                                389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
                                "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "stw@dir"),
-                         /*      new ConnectionBookmark(
-                               "directory.srv.stwalkerster.net",
+                               new NetworkCredential("uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk", "testuser")),
+                           new ConnectionBookmark(
+                               "ad lds",
+                               "localhost",
                                389,
-                               "uid=testuser,ou=People,dc=helpmebot,dc=org,dc=uk",
-                               "testuser",
-                               "dc=helpmebot,dc=org,dc=uk",
-                               3,
-                               "random other account with a longer name"),*/
+                               "CN=Configuration,CN={84A5333F-631C-4A75-A325-8CE66B5EA4D8}",
+                               new NetworkCredential("testuser", "testuser", "domain"),
+                               AuthType.Negotiate),
                        };
         }
 

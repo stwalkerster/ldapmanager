@@ -30,6 +30,7 @@ namespace LdapManager.ViewModels
     using LdapManager.Models;
     using LdapManager.Services;
     using LdapManager.Services.Interfaces;
+    using LdapManager.Services.Transient;
     using LdapManager.TypedFactories;
     using LdapManager.ViewModels.Interfaces;
 
@@ -151,6 +152,8 @@ namespace LdapManager.ViewModels
             this.DirectoryRoot = this.connectionService.DirectoryRoot;
 
             ((ConnectionService)this.connectionService).GetSchema();
+
+            this.connectionService.GetBaseDNs();
         }
 
         #endregion

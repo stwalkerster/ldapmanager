@@ -103,7 +103,7 @@
     <Compile Include="Models\DirectoryAttribute.cs" />
     <Compile Include="Models\DirectoryEntry.cs" />
     <Compile Include="Services\BookmarkService.cs" />
-    <Compile Include="Services\ConnectionService.cs" />
+    <Compile Include="Services\Transient\ConnectionService.cs" />
     <Compile Include="Services\Interfaces\IBookmarkService.cs" />
     <Compile Include="Services\Interfaces\IConnectionService.cs" />
     <Compile Include="Startup\EventRegistrationFacility.cs" />
